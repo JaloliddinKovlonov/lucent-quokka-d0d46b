@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const lessons = (await getCollection('lessons')).sort((a,b)=>a.data.order-b.data.order);
+const cats = ['Hammasi', ...new Set(lessons.map(l=>l.data.category))];
+---
+<Base title="Darslar — uzdevops.uz">
+<div class="wrap">
+  <header style="padding:84px 0 28px">
+    <span class="kicker">Darslar</span>
+    <h1 style="font-size:clamp(36px,4.4vw,56px)">Barcha video darslar</h1>
+    <p style="font-size:17px;line-height:28px;max-width:58ch;color:color-mix(in srgb,var(--color-text) 78%,transparent)">Noldan boshlab, tartib bilan. Har bir dars — video, matnli qo'llanma va amaliy topshiriq.</p>
+  </header>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;padding:14px 0 42px" role="group" aria-label="Yo'nalish bo'yicha saralash">
+    {cats.map((c,i) => <button type="button" class="chip" data-cat={c} aria-pressed={i===0 ? 'true' : 'false'}>{c}</button>)}
+  </div>
+  <div id="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding-bottom:48px">
+    {lessons.map(l => (
+      <a class="card" href={l.data.published ? '/darslar/' + l.id : undefined}
+         data-cat={l.data.category} style={l.data.published ? '' : 'opacity:.62'}>
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline">
+          <span class="card-kicker">{String(l.data.order).padStart(2,'0')} · {l.data.category}</span>
+          <span style="font-size:12px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">{l.data.duration}</span>
+        </div>
+        <h2 class="card-title">{l.data.title}</h2>
+        <p class="card-body">{l.data.description}</p>
+        <p class="card-meta" style={l.data.published ? '' : 'color:color-mix(in srgb,var(--color-text) 45%,transparent)'}>{l.data.published ? 'Video · Matn · Lab' : 'Tez kunda'}</p>
+      </a>
+    ))}
+  </div>
+</div>
+<script>
+  const chips = document.querySelectorAll('.chip');
+  chips.forEach(ch => ch.addEventListener('click', () => {
+    chips.forEach(c => c.setAttribute('aria-pressed', String(c === ch)));
+    const cat = ch.dataset.cat;
+    document.querySelectorAll('#grid > a').forEach(a => {
+      a.style.display = (cat === 'Hammasi' || a.dataset.cat === cat) ? '' : 'none';
+    });
+  }));
+</script>
+</Base>

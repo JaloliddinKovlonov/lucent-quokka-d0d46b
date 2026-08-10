@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const lessons = (await getCollection('lessons')).sort((a,b)=>a.data.order-b.data.order);
+const yonalishlar = [
+  { n:'01', t:'Linux va terminal', c:"Har bir DevOps muhandisning poydevori: fayl tizimi, foydalanuvchilar, jarayonlar, bash skriptlar va SSH. Serverni birinchi kundan o'zingiz boshqarasiz." },
+  { n:'02', t:'Docker va konteynerlar', c:"Ilovani konteynerga o'rash, image yasash, Docker Compose bilan bir necha xizmatni birga ishga tushirish — hammasi amaliy misollarda." },
+  { n:'03', t:'Kubernetes', c:"Pod, Deployment, Service va Ingress — klaster qanday ishlashini chizmalar va jonli misollar orqali tushunasiz." },
+  { n:'04', t:'CI/CD va avtomatlashtirish', c:"GitHub Actions bilan test, build va deploy'ni avtomatlashtirish. Kod push'dan productiongacha bo'lgan yo'lni o'zingiz qurasiz." },
+];
+---
+<Base>
+<div class="wrap">
+  <header style="padding:96px 0 48px;max-width:820px">
+    <h1 style="font-size:clamp(38px,5vw,64px)">DevOpsni o'z tilingizda. Noldan productiongacha.</h1>
+    <p style="font-size:17px;line-height:28px;max-width:58ch;color:color-mix(in srgb,var(--color-text) 78%,transparent)">uzdevops.uz — Linux, Docker, Kubernetes va CI/CD bo'yicha o'zbek tilidagi bepul video darslar, matnli qo'llanmalar va amaliy laboratoriyalar. Ro'yxatdan o'tish shart emas: darsni oching va boshlang.</p>
+    <div style="display:flex;gap:12px;margin-top:24px">
+      <a class="btn" href="/darslar">Darslarni ko'rish</a>
+      <a class="btn btn-ghost" href={'/darslar/' + lessons[0].id}>Birinchi darsni ochish</a>
+    </div>
+  </header>
+  <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;border-block:1px solid var(--color-divider);padding:36px 0;margin-bottom:72px">
+    {[['8','Kurs yo\'nalishi'],[lessons.length+'','Video dars'],['40+','Amaliy laboratoriya'],['100%','Bepul va ochiq']].map(([n,l]) => (
+      <div><p style="font-size:34px;font-weight:500;margin:0">{n}</p><p style="font-size:13px;margin:4px 0 0;color:color-mix(in srgb,var(--color-text) 60%,transparent)">{l}</p></div>
+    ))}
+  </section>
+  <span class="kicker">Nima o'rgatamiz</span>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:72px">
+    {yonalishlar.map(f => (
+      <div class="card">
+        <span class="card-kicker">{f.n}</span>
+        <h2 class="card-title">{f.t}</h2>
+        <p class="card-body">{f.c}</p>
+      </div>
+    ))}
+  </div>
+  <section id="amaliyot" style="max-width:620px;padding-bottom:24px">
+    <span class="kicker">Amaliyot</span>
+    <h2 style="font-weight:500;font-size:32px;margin:0 0 14px">Ko'rish emas — qilish</h2>
+    <p style="font-size:16px;line-height:28px;color:color-mix(in srgb,var(--color-text) 78%,transparent)">Har bir mavzu amaliy laboratoriya bilan yakunlanadi: tayyor muhit, aniq topshiriq va tekshiruv ro'yxati. Video ko'rib o'tirmaysiz — terminal ochasiz, xato qilasiz, tuzatasiz va shu tariqa o'rganasiz.</p>
+  </section>
+</div>
+</Base>

@@ -1,0 +1,23 @@
+---
+const { title = "uzdevops.uz — DevOps o'zbek tilida" } = Astro.props;
+import '../styles/global.css';
+---
+<html lang="uz">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title}</title>
+<link rel="preconnect" href="https://rsms.me/" />
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+</head>
+<body>
+<nav class="nav">
+  <a href="/" class="nav-brand">uzdevops.uz</a>
+  <a href="/darslar">Darslar</a>
+  <a href="/#amaliyot">Amaliyot</a>
+  <a class="btn" href="/darslar">Bepul boshlash</a>
+</nav>
+<slot />
+<footer>uzdevops.uz — DevOps bilimlari o'zbek tilida. Barcha darslar bepul va ochiq.</footer>
+</body>
+</html>
