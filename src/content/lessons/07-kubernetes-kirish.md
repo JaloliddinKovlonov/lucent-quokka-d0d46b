@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "Kubernetes'ga kirish"
 category: "Kubernetes"
 order: 7
